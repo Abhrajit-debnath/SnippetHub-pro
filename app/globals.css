@@ -125,4 +125,67 @@
 @theme {
   --font-poppins: "var(--font-poppins)";
   --font-inter: "var(--font-inter)";
+  --font-logo: "var(--font-logo)";
+  --color-cardBg: #191919;
+  --color-backgroundBg: #0c0c0c;
+  --color-sidebarBg: #191919;
+  --color-snippetCardbox: #212224;
+  --color-buttonColor: #9929ea;
+  --color-buttonColorHover: #8211d4;
+  --breakpoint-xs: 34.375rem;
+
+  --breakpoint-xxs: 31rem;
+}
+
+/* Chrome, Edge, Safari */
+.code-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.code-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(113, 113, 122, 0.5); /* zinc-500 */
+  border-radius: 9999px;
+}
+
+.code-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(113, 113, 122, 0.8);
+}
+
+/* Firefox */
+.code-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 113, 122, 0.6) transparent;
+}
+
+.snippet-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.snippet-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.snippet-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(113, 113, 122, 0.5); /* zinc-500 */
+  border-radius: 9999px;
+}
+
+.snippet-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(113, 113, 122, 0.8);
+}
+
+/* Firefox */
+.snippet-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 113, 122, 0.6) transparent;
+}
+
+body {
+  overflow-y: hidden;
 }

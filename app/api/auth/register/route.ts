@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       username,
       email,
       password: hashedPassword,
-      isSubcribed: false,
+      isSubscribed: false,
       createdAt: new Date(),
     });
 
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 2,
     });

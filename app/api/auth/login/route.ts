@@ -6,9 +6,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-
   try {
-    
     const body = await req.json();
 
     //  Validate input
@@ -24,7 +22,7 @@ export async function POST(req: NextRequest) {
     const user = await db.collection("users").findOne({ email });
 
     if (!user) {
-      return NextResponse.json({ error: "Invalid Email" }, { status: 401 });
+      return NextResponse.json({ error: "User not found with this email" }, { status: 401 });
     }
 
     //  Verify password
@@ -58,8 +56,8 @@ export async function POST(req: NextRequest) {
     response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
+      sameSite: "lax", 
+      path: "/", 
       maxAge: 60 * 60 * 24 * 2,
     });
 

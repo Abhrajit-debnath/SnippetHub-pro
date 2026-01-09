@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Providers } from "@/app/providers/theme-provider";
-import { Poppins, Inter } from "next/font/google";
+import { Poppins, Inter,Zalando_Sans_Expanded } from "next/font/google";
 
 import ToastProvider from "./providers/toast-provider";
-// import { useEffect, useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const zalando = Zalando_Sans_Expanded({
+  subsets: ["latin"],
+  variable: "--font-logo",
+  weight: [ "200", "300", "400", "500", "600", "700", "800", "900"],
+   fallback: ["sans-serif"],
 });
 
 const inter = Inter({
@@ -31,11 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`antialiased ${poppins.variable} ${inter.variable}`}>
-        <Providers>
-          <ToastProvider />
-          {children}
-        </Providers>
+      <body className={`antialiased ${poppins.variable} ${inter.variable} selection:text-buttonColor selection:bg-white ${zalando.variable} `}>
+        <ToastProvider />
+        {children}
       </body>
     </html>
   );

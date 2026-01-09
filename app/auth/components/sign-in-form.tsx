@@ -23,6 +23,7 @@ import axios from "@/app/config/axios.config";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import Logo from "./logo";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
@@ -31,7 +32,6 @@ const SignInComponent = () => {
 
   const router = useRouter();
 
-  
   // Form state initialization
 
   const form = useForm<LoginFormValues>({
@@ -53,7 +53,7 @@ const SignInComponent = () => {
 
       if (response.status === 200) {
         toast.success("Login successful", { id: toastId });
-        router.push("/dashboard");
+        router.push("/dashboard/home");
         router.refresh();
       }
     } catch (error) {
@@ -66,26 +66,27 @@ const SignInComponent = () => {
 
   return (
     <div className="flex flex-col items-center w-full max-w-md">
-      <h2 className="font-poppins text-lg font-medium mb-6 md:text-xl lg:text-2xl">
-        Login
-      </h2>
+      <Logo />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-full border rounded-xl p-4 border-zinc-300"
+          className="space-y-6 w-full border rounded-xl text-center p-4 border-zinc-700"
         >
+          <h2 className="font-poppins text-lg font-medium mb-6 md:text-xl lg:text-2xl text-white">
+            Login
+          </h2>
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px]">
+                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
                   email
                 </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="email"
-                    className="font-inter text-sm"
+                    className="font-inter text-sm border-gray-600 text-white"
                     {...field}
                   />
                 </FormControl>
@@ -99,16 +100,16 @@ const SignInComponent = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px]">
+                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
                   password
                 </FormLabel>
                 <FormControl>
                   <div className="flex justify-center items-center relative">
                     <Input
                       type={showPassword ? "text" : "password"}
-                      placeholder="password"
+                      placeholder="password "
                       {...field}
-                      className="font-inter text-sm   transition-all duration-200 ease-out "
+                      className="font-inter text-sm border-gray-600 text-white transition-all duration-200 ease-out "
                     />
                     <button
                       type="button"
@@ -116,9 +117,9 @@ const SignInComponent = () => {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <Eye className="h-4 w-4 text-muted-foreground lg:w-5 lg:h-5" />
+                        <Eye className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
                       ) : (
-                        <EyeClosed className="h-4 w-4 text-muted-foreground lg:w-5 lg:h-5" />
+                        <EyeClosed className="h-4 w-4 lg:w-5 lg:h-5 text-white" />
                       )}
                     </button>
                   </div>
@@ -135,14 +136,14 @@ const SignInComponent = () => {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer font-poppins text-xs md:text-sm lg:text-[16px]"
+            className="w-full cursor-pointer font-poppins text-xs md:text-sm lg:text-[16px] bg-buttonColor xl:py-5 hover:bg-buttonColorHover"
           >
             Login
           </Button>
         </form>
       </Form>
 
-      <h2 className="font-poppins text-xs mt-3 md:text-sm">
+      <h2 className="font-poppins text-xs mt-3 md:text-sm text-white">
         Dont have an account ?{" "}
         <Link
           href="/auth/register"
