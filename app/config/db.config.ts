@@ -1,6 +1,10 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI!
+if (!process.env.MONGODB_URI) {
+    throw new Error("MongoDb uri not found")
+}
+
+const uri = process.env.MONGODB_URI
 
 const client = new MongoClient(uri)
 
