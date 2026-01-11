@@ -7,7 +7,7 @@ type DashboardDetail = {
   name: string;
   icon: React.ReactElement;
   data: number | string;
-  variant: "purple" | "yellow" | "green";
+  variant: "purple" | "yellow" | "green" | "violet";
 };
 
 const DahboardView = () => {
@@ -44,7 +44,11 @@ const DahboardView = () => {
     {
       name: "Last Snippet",
       icon: <CalendarCheck2 className="text-green-500" />,
-      data: snippets.length > 0 ? snippets.at(-1)?.title : "No snippets",
+      data:
+        snippets.length > 0
+          ? snippets.at(-1)?.title ?? "Untitled snippet"
+          : "No snippets",
+
       variant: "green",
     },
   ];
