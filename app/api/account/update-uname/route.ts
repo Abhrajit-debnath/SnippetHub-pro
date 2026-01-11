@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Jwt from "jsonwebtoken";
 import { getDb } from "@/app/config/db.config";
 import { ObjectId } from "mongodb";
+import getJwtSecret from "@/app/helpers/getJwt";
 
 export async function PUT(req: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function PUT(req: NextRequest) {
     // Verify token
     let decodedToken: { userId: string };
     try {
-      decodedToken = Jwt.verify(token, process.env.JWT_SECRET!) as {
+      decodedToken = Jwt.verify(token, getJwtSecret()) as {
         userId: string;
       };
     } catch {

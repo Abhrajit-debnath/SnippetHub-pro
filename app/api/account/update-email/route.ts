@@ -3,6 +3,9 @@ import Jwt from "jsonwebtoken";
 import { getDb } from "@/app/config/db.config";
 import { ObjectId } from "mongodb";
 
+import getJwtSecret from "@/app/helpers/getJwt";
+
+
 export async function PUT(req: NextRequest) {
   try {
     const token = req.cookies.get("token")?.value;
@@ -14,7 +17,7 @@ export async function PUT(req: NextRequest) {
     // Verify token
     let decodedToken: { userId: string };
     try {
-      decodedToken = Jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+      decodedToken = Jwt.verify(token, getJwtSecret()) as { userId: string };
     } catch {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }

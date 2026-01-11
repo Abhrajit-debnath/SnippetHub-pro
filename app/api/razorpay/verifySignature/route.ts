@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { getDb } from "@/app/config/db.config";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import getJwtSecret from "@/app/helpers/getJwt";
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+    const decoded = jwt.verify(token, getJwtSecret()) as {
       userId: string;
       email: string;
     };

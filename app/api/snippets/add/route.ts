@@ -3,7 +3,7 @@ import { snippetValidator } from "@/app/validators/snippets/snippet-validator";
 import { NextRequest, NextResponse } from "next/server";
 import Jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-
+import getJwtSecret from "@/app/helpers/getJwt";
 export async function POST(req: NextRequest) {
   try {
     
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     // verify token
 
-    const decodedToken = Jwt.verify(token, process.env.JWT_SECRET!) as {
+    const decodedToken = Jwt.verify(token, getJwtSecret()) as {
       userId: string;
     };
 

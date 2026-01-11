@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { getDb } from "@/app/config/db.config";
 import { ObjectId } from "mongodb";
+import getJwtSecret from "@/app/helpers/getJwt";
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get("token")?.value;
@@ -9,7 +10,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as {
+    const decodedToken = jwt.verify(token, getJwtSecret()) as {
       email: string;
       userId: string;
     };

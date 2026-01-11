@@ -1,4 +1,5 @@
 import { getDb } from "@/app/config/db.config";
+import getJwtSecret from "@/app/helpers/getJwt";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import type { NextRequest } from "next/server";
@@ -12,7 +13,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+    const decoded = jwt.verify(token, getJwtSecret()) as {
       userId: string;
       email: string;
     };

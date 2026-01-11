@@ -3,6 +3,7 @@ import { signupValidator } from "@/app/validators/user/signup-validator";
 import { NextRequest, NextResponse } from "next/server";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import getJwtSecret from "@/app/helpers/getJwt";
 
 export async function POST(req: NextRequest) {
   try {
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
         userId: result.insertedId.toString(),
         email,
       },
-      process.env.JWT_SECRET!,
+      getJwtSecret(),
       { expiresIn: "2d" }
     );
 

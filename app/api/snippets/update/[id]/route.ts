@@ -4,6 +4,7 @@ import Jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { snippetValidator } from "@/app/validators/snippets/snippet-validator";
 import { promises } from "dns";
+import getJwtSecret from "@/app/helpers/getJwt";
 
 export async function PUT(
   req: NextRequest,
@@ -22,7 +23,7 @@ export async function PUT(
     let decodedToken: { userId: string };
 
     try {
-      decodedToken = Jwt.verify(token, process.env.JWT_SECRET!) as {
+      decodedToken = Jwt.verify(token, getJwtSecret()) as {
         userId: string;
       };
     } catch {

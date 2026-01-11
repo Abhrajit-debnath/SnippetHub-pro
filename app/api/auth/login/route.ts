@@ -1,4 +1,5 @@
 import { getDb } from "@/app/config/db.config";
+import getJwtSecret from "@/app/helpers/getJwt";
 import { loginValidator } from "@/app/validators/user/login-validator";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
         userId: user._id.toString(),
         email: user.email,
       },
-      process.env.JWT_SECRET!,
+      getJwtSecret(),
       { expiresIn: "2d" }
     );
 
