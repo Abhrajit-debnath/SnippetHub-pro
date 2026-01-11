@@ -5,6 +5,13 @@ import { ObjectId } from "mongodb";
 import { resetPasswordValidators } from "@/app/validators/user/resetPassword-validators";
 import argon2 from "argon2";
 
+// Lazy get JWT_SECRET
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error("JWT_SECRET is not set");
+  return secret;
+}
+
 export async function PUT(req: NextRequest) {
   try {
     const token = req.cookies.get("token")?.value;
@@ -13,12 +20,10 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify token
+    // Verify token safely
     let decodedToken: { userId: string };
     try {
-      decodedToken = Jwt.verify(token, process.env.JWT_SECRET!) as {
-        userId: string;
-      };
+      decodedToken = Jwt.verify(token, getJwtSecret()) as { userId: string };
     } catch {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }
@@ -47,15 +52,13 @@ export async function PUT(req: NextRequest) {
         { returnDocument: "after" }
       );
 
-    console.log(result);
-
     if (!result) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json({
       message: "Password updated",
-      user: result.email,
+      user: result.value.email,
     });
   } catch (error: any) {
     console.error(error);
