@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Jwt from "jsonwebtoken";
 import { getDb } from "@/app/config/db.config";
 import { ObjectId } from "mongodb";
+import { resetPasswordValidators } from "@/app/validators/user/resetPassword-validators";
+import argon2 from "argon2";
 
 export async function PUT(req: NextRequest) {
   try {
@@ -23,13 +25,17 @@ export async function PUT(req: NextRequest) {
 
     // Get request body
     const body = await req.json();
-    const username = body.username;
-    if (!username) {
+    const validatedData = resetPasswordValidators.parse(body);
+
+    const { password } = validatedData;
+    if (!password) {
       return NextResponse.json(
-        { message: "Username is required" },
+        { message: "Password is required" },
         { status: 400 }
       );
     }
+
+    const hashedPassword = await argon2.hash(password);
 
     // Update user in DB
     const db = await getDb();
@@ -37,7 +43,7 @@ export async function PUT(req: NextRequest) {
       .collection("users")
       .findOneAndUpdate(
         { _id: new ObjectId(decodedToken.userId) },
-        { $set: { username } },
+        { $set: { password: hashedPassword } },
         { returnDocument: "after" }
       );
 
@@ -48,10 +54,10 @@ export async function PUT(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: "Username updated",
-      user: result.username,
+      message: "Password updated",
+      user: result.email,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return NextResponse.json(
       { message: "Internal Server Error" },

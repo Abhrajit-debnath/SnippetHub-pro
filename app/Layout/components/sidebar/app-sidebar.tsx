@@ -78,22 +78,17 @@ export function AppSidebar() {
                 flex items-center gap-3 rounded-lg px-3 py-2
                 text-sm font-poppins font-medium transition-all duration-150
 
-                ${
-                  isActive
-                    ? "bg-zinc-800 text-white"
-                    : item.title === "Upgrade to Pro"
-                    ? "text-white"
-                    : "text-zinc-300"
-                }
-
+            ${
+              item.title === "Upgrade to Pro"
+                ? "text-white mt-3 justify-center bg-buttonColor py-3 hover:bg-buttonColorHover"
+                : isActive
+                ? "text-white bg-zinc-800 "
+                : "text-zinc-300 hover:bg-zinc-800"
+            }
                 hover:text-white
                 focus-visible:outline-none focus-visible:ring-0
 
-                ${
-                  item.title === "Upgrade to Pro"
-                    ? "mt-3 justify-center bg-buttonColor py-3 hover:bg-buttonColorHover"
-                    : "hover:bg-zinc-800"
-                }
+             }
               `}
             >
               <item.icon className="h-5 w-5" />

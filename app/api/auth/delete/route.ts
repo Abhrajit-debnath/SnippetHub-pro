@@ -5,11 +5,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
-
-
   try {
-
-     console.log("🔥 DELETE-USER ROUTE HIT");
     const token = req.cookies.get("token")?.value;
 
     if (!token) {
@@ -49,8 +45,6 @@ export async function DELETE(req: NextRequest) {
       expires: new Date(0),
       path: "/",
     });
-
-    
 
     return res;
   } catch (error) {

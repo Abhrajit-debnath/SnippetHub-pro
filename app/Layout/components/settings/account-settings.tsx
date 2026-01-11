@@ -26,10 +26,28 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useAuthStore } from "@/app/store/authStore";
+import { Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import hotToast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { resetPasswordSchema } from "@/app/schema/resetPasswordSchema";
+import z from "zod";
+
+type ResetPasswordForm = {
+  password: string;
+};
 const AccountSettings = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, touchedFields },
+  } = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema),
+  });
+
   const { user, clearUser, updateUser } = useAuthStore();
 
   const router = useRouter();
@@ -38,7 +56,10 @@ const AccountSettings = () => {
   const [username, setUsername] = useState(user?.username ?? "");
 
   const [editEmail, setEditEmail] = useState<boolean>(false);
+  const [showResetPassword, setShowResetPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState(user?.email ?? "");
+  const [loading, setLoading] = useState(false);
 
   const handeldeleteAccount = async () => {
     try {
@@ -54,10 +75,7 @@ const AccountSettings = () => {
 
   const updateUsernameHandeler = async () => {
     try {
-      const response = await axios.put(
-        "/account/update-uname",
-        { username }
-      );
+      const response = await axios.put("/account/update-uname", { username });
       if (response.status === 200) {
         toast.success("Username has been updated");
         setEdit(false);
@@ -69,13 +87,9 @@ const AccountSettings = () => {
     }
   };
 
-
-    const updateEmailHandeler = async () => {
+  const updateEmailHandeler = async () => {
     try {
-      const response = await axios.put(
-        "/account/update-email",
-        { email }
-      );
+      const response = await axios.put("/account/update-email", { email });
       if (response.status === 200) {
         toast.success("Username has been updated");
         setEditEmail(false);
@@ -84,6 +98,26 @@ const AccountSettings = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to update username");
+    }
+  };
+
+  const onResetPassword = async (data: ResetPasswordForm) => {
+    try {
+      const response = await axios.put("/account/reset-password", {
+        password: data.password,
+      });
+      setLoading(true);
+
+      if (response.status === 200) {
+        toast.success("Password reset successfully");
+      }
+
+      reset();
+      setShowResetPassword(false);
+    } catch {
+      toast.error("Failed to reset password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -208,13 +242,71 @@ const AccountSettings = () => {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-            <p className="text-xs sm:text-sm text-zinc-400 font-inter">
-              Forgot your password or want to reset it?
-            </p>
-            <Button className="w-full sm:w-auto bg-buttonColor hover:bg-buttonColorHover font-poppins cursor-pointer">
-              Reset Password
-            </Button>
+          <CardContent>
+            {showResetPassword && errors.password && touchedFields.password && (
+              <p className="text-xs font-inter text-red-500 pb-3">
+                {errors.password.message}
+              </p>
+            )}
+
+            <form
+              onSubmit={handleSubmit(onResetPassword)}
+              className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between"
+            >
+              {showResetPassword ? (
+                <div className="relative w-full">
+                  <Input
+                    {...register("password")}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="New password"
+                    className="bg-zinc-800 text-white pr-10"
+                  />
+
+                  <button
+                    className="absolute right-4 top-2 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <Eye className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
+                    ) : (
+                      <EyeClosed className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
+                    )}
+                  </button>
+                </div>
+              ) : (
+                <p className="text-xs sm:text-sm text-zinc-400 font-inter">
+                  Forgot your password or want to reset it?
+                </p>
+              )}
+              <div className="flex  flex-col sm:flex-row sm:space-x-2 sm:space-y-0 space-y-2">
+                <Button
+                  onClick={() => {
+                    if (!showResetPassword) setShowResetPassword(true);
+                  }}
+                  type={showResetPassword ? "submit" : "button"}
+                  disabled={isSubmitting}
+                  className="w-full sm:w-auto bg-buttonColor capitalize hover:bg-buttonColorHover font-poppins cursor-pointer"
+                >
+                  {showResetPassword
+                    ? "reset"
+                    : loading
+                    ? "reseting.."
+                    : "reset password"}
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    setShowResetPassword(false);
+                    reset();
+                  }}
+                  className={`w-full sm:w-auto bg-red-600 hover:bg-red-700 font-poppins cursor-pointer ${
+                    showResetPassword ? "block" : "hidden"
+                  }`}
+                >
+                  cancel
+                </Button>
+              </div>
+            </form>
           </CardContent>
         </Card>
 
