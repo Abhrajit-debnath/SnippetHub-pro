@@ -3,7 +3,7 @@ import { MongoClient, Db } from "mongodb";
 const uri = process.env.MONGODB_URI;
 
 if (!uri) {
-  // Don't throw at import time; throw only when function runs
+
   console.warn("Warning: MONGODB_URI is not set!");
 }
 
