@@ -1,27 +1,25 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
-    throw new Error("MongoDb uri not found")
+  throw new Error("MongoDB URI not found");
 }
 
-const uri = process.env.MONGODB_URI
+const uri = process.env.MONGODB_URI;
 
-const client = new MongoClient(uri)
+let cachedClient: MongoClient | null = null;
+let cachedDb: Db | null = null;
 
-let isConnected = false
+export async function getDb(): Promise<Db> {
+  if (cachedDb) {
+    return cachedDb;
+  }
 
-export async function getDb() {
-    try {
-        if (!isConnected) {
-            await client.connect()
-            isConnected = true
-        }
-        
-        
-    } catch (error) {
-        console.log(error);
-        
-    }
+  if (!cachedClient) {
+    const client = new MongoClient(uri);
+    await client.connect();
+    cachedClient = client;
+  }
 
-    return client.db("Snippethub-pro")
+  cachedDb = cachedClient.db("Snippethub-pro");
+  return cachedDb;
 }
