@@ -4,13 +4,9 @@ import { getDb } from "@/app/config/db.config";
 import { ObjectId } from "mongodb";
 import { resetPasswordValidators } from "@/app/validators/user/resetPassword-validators";
 import argon2 from "argon2";
+import getJwtSecret from "@/app/helpers/getJwt";
 
-// Lazy get JWT_SECRET
-function getJwtSecret() {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error("JWT_SECRET is not set");
-  return secret;
-}
+
 
 export async function PUT(req: NextRequest) {
   try {
