@@ -31,6 +31,7 @@ type SignUpFormValues = z.infer<typeof signupSchema>;
 const SignUpComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // Form state initialization
@@ -46,19 +47,16 @@ const SignUpComponent = () => {
   });
 
   const onSubmit = async (data: SignUpFormValues) => {
-    const payLoad = {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    };
-
     try {
-      const response = await axios.post("/auth/register", payLoad);
-      const toastId = toast.loading("Signing up...");
-      console.log(response);
+      setLoading(true);
+      const response = await axios.post("/auth/register", {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
 
       if (response.status === 200) {
-        toast.success("Signup successful", { id: toastId });
+        toast.success("Signup successful");
         router.push("/dashboard/home");
         router.refresh();
       }
@@ -67,6 +65,8 @@ const SignUpComponent = () => {
       toast.error(
         err.response?.data?.error || "Signup failed. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,7 +87,7 @@ const SignUpComponent = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 w-full border rounded-xl p-4 border-zinc-700 bg-backgroundBg/30
     backdrop-blur-3xl
-    shadow-2x"
+    shadow-2xl"
             >
               <h2 className="font-poppins text-center text-lg capitalize font-medium mb-6 md:text-xl lg:text-2xl text-white">
                 Register
@@ -148,6 +148,7 @@ const SignUpComponent = () => {
                           className="font-inter text-sm   transition-all duration-200 ease-out text-white border-gray-600"
                         />
                         <button
+                          type="button"
                           className="absolute right-4"
                           onClick={() => setShowPassword(!showPassword)}
                         >
@@ -203,7 +204,7 @@ const SignUpComponent = () => {
                 type="submit"
                 className="w-full cursor-pointer font-poppins capitalize text-xs md:text-sm lg:text-[16px] hover:bg-buttonColorHover bg-buttonColor xl:py-5"
               >
-                register
+                {loading ? "Registering .." : "Register"}
               </Button>
             </form>
           </Form>

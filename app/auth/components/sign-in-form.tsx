@@ -30,6 +30,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 const SignInComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -48,11 +49,13 @@ const SignInComponent = () => {
   const onSubmit = async (data: LoginFormValues) => {
     console.log("Validated Data:", data);
     try {
+      setLoading(true);
       const response = await axios.post("/auth/login", data);
       const toastId = toast.loading("Signing in...");
       console.log(response);
 
       if (response.status === 200) {
+        setLoading(false);
         toast.success("Login successful", { id: toastId });
         router.push("/dashboard/home");
         router.refresh();
@@ -62,6 +65,8 @@ const SignInComponent = () => {
       toast.error(
         err.response?.data?.error || "Login failed. Please try again."
       );
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -75,7 +80,7 @@ const SignInComponent = () => {
         />
       </div>
 
-    <div className="relative z-10 flex min-h-screen items-center justify-center">
+      <div className="relative z-10 flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center w-full max-w-md  px-4">
           <Logo />
           <Form {...form}>
@@ -151,9 +156,9 @@ const SignInComponent = () => {
 
               <Button
                 type="submit"
-                className="w-full cursor-pointer font-poppins text-xs md:text-sm lg:text-[16px] bg-buttonColor xl:py-5 hover:bg-buttonColorHover"
+                className="w-full capitalize cursor-pointer font-poppins text-xs md:text-sm lg:text-[16px] bg-buttonColor xl:py-5 hover:bg-buttonColorHover"
               >
-                Login
+                {loading ? "signing in..." : "login"}
               </Button>
             </form>
           </Form>
