@@ -75,8 +75,8 @@ const SignInComponent = () => {
         />
       </div>
 
-      <div className="relative z-10 flex h-full items-center justify-center ">
-        <div className="flex flex-col items-center w-full max-w-md absolute top-0  translate-y-1/2 px-4">
+    <div className="relative z-10 flex min-h-screen items-center justify-center">
+        <div className="flex flex-col items-center w-full max-w-md  px-4">
           <Logo />
           <Form {...form}>
             <form
@@ -103,7 +103,7 @@ const SignInComponent = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm text-left" />
                   </FormItem>
                 )}
               />
@@ -137,7 +137,7 @@ const SignInComponent = () => {
                         </button>
                       </div>
                     </FormControl>
-                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                    <FormMessage className="font-inter text-left font-normal text-xs lg:text-sm" />
                     <div className="flex justify-end font-poppins text-xs mt-1 md:text-sm">
                       <h2 className="capitalize cursor-pointer text-blue-500">
                         <Link href="/auth/forgot-password">
