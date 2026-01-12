@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import Logo from "./logo";
+import Aurora from "./backgrounds/AuroraBackground";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
@@ -65,93 +66,109 @@ const SignInComponent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-md">
-      <Logo />
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-full border rounded-xl text-center p-4 border-zinc-700"
-        >
-          <h2 className="font-poppins text-lg font-medium mb-6 md:text-xl lg:text-2xl text-white">
-            Login
+    <div className="w-screen min-h-screen relative">
+      <div className="absolute inset-0 overflow-hidden z-0">
+        <Aurora
+          colorStops={["#9929ea", "#B19EEF", "#5227FF"]}
+          amplitude={5.2}
+          blend={0.9}
+        />
+      </div>
+
+      <div className="relative z-10 flex h-full items-center justify-center ">
+        <div className="flex flex-col items-center w-full max-w-md absolute top-0  translate-y-1/2 px-4">
+          <Logo />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 w-full border rounded-xl text-center p-4 border-zinc-700  bg-backgroundBg/30
+    backdrop-blur-3xl
+    shadow-2xl"
+            >
+              <h2 className="font-poppins text-lg font-medium mb-6 md:text-xl lg:text-2xl text-white">
+                Login
+              </h2>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
+                      email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="email"
+                        className="font-inter text-sm border-gray-600 text-white"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
+                      password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex justify-center items-center relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="password "
+                          {...field}
+                          className="font-inter text-sm border-gray-600 text-white transition-all duration-200 ease-out "
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-4"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <Eye className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
+                          ) : (
+                            <EyeClosed className="h-4 w-4 lg:w-5 lg:h-5 text-white" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                    <div className="flex justify-end font-poppins text-xs mt-1 md:text-sm">
+                      <h2 className="capitalize cursor-pointer text-blue-500">
+                        <Link href="/auth/forgot-password">
+                          Forgot password ?
+                        </Link>
+                      </h2>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="w-full cursor-pointer font-poppins text-xs md:text-sm lg:text-[16px] bg-buttonColor xl:py-5 hover:bg-buttonColorHover"
+              >
+                Login
+              </Button>
+            </form>
+          </Form>
+
+          <h2 className="font-poppins text-xs mt-3 md:text-sm text-white">
+            Dont have an account ?{" "}
+            <Link
+              href="/auth/register"
+              className="capitalize cursor-pointer text-blue-500"
+            >
+              create one
+            </Link>
           </h2>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
-                  email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="email"
-                    className="font-inter text-sm border-gray-600 text-white"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
-                  password
-                </FormLabel>
-                <FormControl>
-                  <div className="flex justify-center items-center relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="password "
-                      {...field}
-                      className="font-inter text-sm border-gray-600 text-white transition-all duration-200 ease-out "
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-4"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <Eye className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
-                      ) : (
-                        <EyeClosed className="h-4 w-4 lg:w-5 lg:h-5 text-white" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
-                <div className="flex justify-end font-poppins text-xs mt-1 md:text-sm">
-                  <h2 className="capitalize cursor-pointer text-blue-500">
-                    <Link href="/auth/forgot-password">Forgot password ?</Link>
-                  </h2>
-                </div>
-              </FormItem>
-            )}
-          />
-
-          <Button
-            type="submit"
-            className="w-full cursor-pointer font-poppins text-xs md:text-sm lg:text-[16px] bg-buttonColor xl:py-5 hover:bg-buttonColorHover"
-          >
-            Login
-          </Button>
-        </form>
-      </Form>
-
-      <h2 className="font-poppins text-xs mt-3 md:text-sm text-white">
-        Dont have an account ?{" "}
-        <Link
-          href="/auth/register"
-          className="capitalize cursor-pointer text-blue-500"
-        >
-          create one
-        </Link>
-      </h2>
+        </div>
+      </div>
     </div>
   );
 };

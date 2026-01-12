@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import Logo from "./logo";
+import Aurora from "./backgrounds/AuroraBackground";
 
 type SignUpFormValues = z.infer<typeof signupSchema>;
 
@@ -70,141 +71,154 @@ const SignUpComponent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-md">
-      <Logo />
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-full border rounded-xl p-4 border-zinc-700"
-        >
-          <h2 className="font-poppins text-center text-lg capitalize font-medium mb-6 md:text-xl lg:text-2xl text-white">
-            Register
+    <div className="relative min-h-screen w-screen overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <Aurora
+          colorStops={["#9929ea", "#B19EEF", "#5227FF"]}
+          amplitude={5.2}
+          blend={0.9}
+        />
+      </div>
+      <div className="relative z-10 flex min-h-screen items-center justify-center">
+        <div className="flex flex-col items-center w-full max-w-md  px-4">
+          <Logo />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 w-full border rounded-xl p-4 border-zinc-700 bg-backgroundBg/30
+    backdrop-blur-3xl
+    shadow-2x"
+            >
+              <h2 className="font-poppins text-center text-lg capitalize font-medium mb-6 md:text-xl lg:text-2xl text-white">
+                Register
+              </h2>
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
+                      username
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="username"
+                        className="font-inter text-sm text-white border-gray-600"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
+                      email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="email"
+                        className="font-inter text-sm text-white border-gray-600"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
+                      password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex justify-center items-center relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="password"
+                          {...field}
+                          className="font-inter text-sm   transition-all duration-200 ease-out text-white border-gray-600"
+                        />
+                        <button
+                          className="absolute right-4"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <Eye className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
+                          ) : (
+                            <EyeClosed className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="confirm_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
+                      confirm password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex justify-center items-center relative">
+                        <Input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="re-enter passoword"
+                          {...field}
+                          className="font-inter text-sm transition-all duration-200 ease-out text-white border-gray-600"
+                        />
+                        <button
+                          className="absolute right-4"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                        >
+                          {showConfirmPassword ? (
+                            <Eye className="h-4 w-4 lg:w-5 lg:h-5 text-white" />
+                          ) : (
+                            <EyeClosed className="h-4 w-4  lg:w-5 lg:h-5  text-white" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="w-full cursor-pointer font-poppins capitalize text-xs md:text-sm lg:text-[16px] hover:bg-buttonColorHover bg-buttonColor xl:py-5"
+              >
+                register
+              </Button>
+            </form>
+          </Form>
+
+          <h2 className="font-poppins text-xs mt-3 md:text-sm text-white">
+            Already have an account ?{" "}
+            <Link
+              href="/auth/signin"
+              className="capitalize cursor-pointer text-blue-500"
+            >
+              sign In
+            </Link>
           </h2>
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
-                  username
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="username"
-                    className="font-inter text-sm text-white border-gray-600"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
-                  email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="email"
-                    className="font-inter text-sm text-white border-gray-600"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
-                  password
-                </FormLabel>
-                <FormControl>
-                  <div className="flex justify-center items-center relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="password"
-                      {...field}
-                      className="font-inter text-sm   transition-all duration-200 ease-out text-white border-gray-600"
-                    />
-                    <button
-                      className="absolute right-4"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <Eye className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
-                      ) : (
-                        <EyeClosed className="h-4 w-4  lg:w-5 lg:h-5 text-white" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="confirm_password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-poppins text-sm font-medium md:text-[15px] lg:text-[16px] text-white">
-                  confirm password
-                </FormLabel>
-                <FormControl>
-                  <div className="flex justify-center items-center relative">
-                    <Input
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="re-enter passoword"
-                      {...field}
-                      className="font-inter text-sm transition-all duration-200 ease-out text-white border-gray-600"
-                    />
-                    <button
-                      className="absolute right-4"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      {showConfirmPassword ? (
-                        <Eye className="h-4 w-4 lg:w-5 lg:h-5 text-white" />
-                      ) : (
-                        <EyeClosed className="h-4 w-4  lg:w-5 lg:h-5  text-white" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage className="font-inter font-normal text-xs lg:text-sm" />
-              </FormItem>
-            )}
-          />
-
-          <Button
-            type="submit"
-            className="w-full cursor-pointer font-poppins capitalize text-xs md:text-sm lg:text-[16px] hover:bg-buttonColorHover bg-buttonColor xl:py-5"
-          >
-            register
-          </Button>
-        </form>
-      </Form>
-
-      <h2 className="font-poppins text-xs mt-3 md:text-sm text-white">
-        Already have an account ?{" "}
-        <Link
-          href="/auth/signin"
-          className="capitalize cursor-pointer text-blue-500"
-        >
-          sign In
-        </Link>
-      </h2>
+        </div>
+      </div>
     </div>
   );
 };

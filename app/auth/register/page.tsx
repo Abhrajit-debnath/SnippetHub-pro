@@ -4,7 +4,7 @@ import SignUpComponent from '../components/sign-up-form'
 
 const page = () => {
   return (
-       <div className="min-h-screen flex items-center justify-center px-4 bg-backgroundBg">
+       <div className="min-h-screen flex items-center justify-center bg-backgroundBg">
 
       <SignUpComponent/>
     </div>
