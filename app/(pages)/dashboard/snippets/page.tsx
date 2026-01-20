@@ -9,20 +9,19 @@ import SnippetCard from "@/app/Layout/components/snippet/snippet-card";
 import SnippetCardWrapper from "@/app/Layout/components/snippet/snippet-card-wrapper";
 import SnippetForm from "@/app/Layout/components/snippet/snippet-form";
 import SnippetHeader from "@/app/Layout/components/snippet/snippet-header";
-
 import { useSnippetStore } from "@/app/store/snippetStore";
+import { useRouter } from "next/navigation";
+import axios from "@/app/config/axios.config";
+import SnippetSearchBox from "@/app/Layout/components/snippet/snippet-search";
 
 const Page = () => {
   const [openSnippetForm, setOpenSnippetForm] = useState(false);
   const [openUpgradeModalForm, setOpenUpgradeModalForm] = useState(false);
   const [selectedSnippet, setSelectedSnippet] = useState<Snippet | null>(null);
 
-  const {
-    snippets,
-    loading,
-    fetchSnippets,
-    deleteSnippet,
-  } = useSnippetStore();
+  const { snippets, loading, fetchSnippets, deleteSnippet, setActiveSnippet } =
+    useSnippetStore();
+  const router = useRouter();
 
   useEffect(() => {
     fetchSnippets();
@@ -37,6 +36,11 @@ const Page = () => {
     await deleteSnippet(String(snippet._id));
   };
 
+  const chatWithAIHandler = async (snippet: Snippet) => {
+    setActiveSnippet(snippet);
+    router.push("/dashboard/chat-with-ai");
+  };
+
   return (
     <div className="flex flex-col">
       <SnippetHeader
@@ -44,6 +48,8 @@ const Page = () => {
         setOpenSnippetForm={setOpenSnippetForm}
         setOpenModalForm={setOpenUpgradeModalForm}
       />
+
+      <SnippetSearchBox/>
 
       {/* Snippet Form Modal */}
       {openSnippetForm && (
@@ -72,16 +78,15 @@ const Page = () => {
               <SnippetSkeleton key={id} />
             ))
           ) : snippets.length === 0 ? (
-            <div className="capitalize text-white">
-              no snippets found
-            </div>
+            <div className="capitalize text-white">no snippets found</div>
           ) : (
-            snippets.map((snippet:Snippet) => (
+            snippets.map((snippet: Snippet) => (
               <SnippetCard
                 key={String(snippet._id)}
                 snippet={snippet}
                 onUpdate={handleUpdateSnippet}
                 onDelete={handleDeleteSnippet}
+                onChat={chatWithAIHandler}
               />
             ))
           )}

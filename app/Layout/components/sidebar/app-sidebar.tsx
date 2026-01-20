@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  LayoutDashboard,
-  SquareDashedBottomCode,
-  Settings,
-  Crown,
-  User2,
-  ChevronUp,
-} from "lucide-react";
-
+import { User2, ChevronUp } from "lucide-react";
 import {
   SidebarFooter,
   SidebarMenu,
@@ -27,21 +19,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import Logo from "@/app/auth/components/logo";
 
-const items = [
-  { title: "Home", url: "/dashboard/home", icon: LayoutDashboard },
-  {
-    title: "Snippets",
-    url: "/dashboard/snippets",
-    icon: SquareDashedBottomCode,
-  },
-  { title: "Settings", url: "/dashboard/settings", icon: Settings },
-  { title: "Upgrade to Pro", url: "/dashboard/upgrade", icon: Crown },
-];
+import Menu from "../menus/nav-menu";
 
 export function AppSidebar() {
-  const pathname = usePathname();
   const router = useRouter();
   const { user, clearUser } = useAuthStore();
 
@@ -56,47 +37,9 @@ export function AppSidebar() {
     }
   };
 
-  const menuItems = user?.isSubscribed
-    ? items.filter((item) => item.title !== "Upgrade to Pro")
-    : items;
-
   return (
     <aside className="flex min-h-screen w-64 flex-col bg-sidebarBg">
-      <nav className="flex-1 p-4 space-y-3">
-        <Link href="/dashboard/home">
-          <Logo className="lg:text-lg pb-5" />
-        </Link>
-
-        {menuItems.map((item) => {
-          const isActive = pathname.startsWith(item.url);
-
-          return (
-            <Link
-              key={item.url}
-              href={item.url}
-              className={`
-                flex items-center gap-3 rounded-lg px-3 py-2
-                text-sm font-poppins font-medium transition-all duration-150
-
-            ${
-              item.title === "Upgrade to Pro"
-                ? "text-white mt-3 justify-center bg-buttonColor py-3 hover:bg-buttonColorHover"
-                : isActive
-                ? "text-white bg-zinc-800 "
-                : "text-zinc-300 hover:bg-zinc-800"
-            }
-                hover:text-white
-                focus-visible:outline-none focus-visible:ring-0
-
-             }
-              `}
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{item.title}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      <Menu />
 
       <SidebarFooter className="border-t border-zinc-700">
         <SidebarMenu>

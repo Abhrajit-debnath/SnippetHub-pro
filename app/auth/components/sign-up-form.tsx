@@ -102,7 +102,7 @@ const SignUpComponent = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="username"
+                        placeholder="john doe"
                         className="font-inter text-sm text-white border-gray-600"
                         {...field}
                       />
@@ -121,7 +121,7 @@ const SignUpComponent = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="email"
+                        placeholder="abc@gmail.com"
                         className="font-inter text-sm text-white border-gray-600"
                         {...field}
                       />

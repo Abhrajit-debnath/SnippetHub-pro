@@ -186,6 +186,30 @@
   scrollbar-color: rgba(113, 113, 122, 0.6) transparent;
 }
 
+.snippet-msg::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.snippet-msg::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.snippet-msg::-webkit-scrollbar-thumb {
+  background-color: rgba(113, 113, 122, 0.5); /* zinc-500 */
+  border-radius: 9999px;
+}
+
+.snippet-msg::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(113, 113, 122, 0.8);
+}
+
+/* Firefox */
+.snippet-msg {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 113, 122, 0.6) transparent;
+}
+
 body {
   overflow-y: hidden;
 }

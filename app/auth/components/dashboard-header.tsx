@@ -8,11 +8,13 @@ type Props = {
 
 const DashboardHeader = ({ toggleSidebar, setToggleSidebar }: Props) => {
   return (
-    <div className="flex items-center justify-between gap-4 text-white">
-      <HamburgerMenu
+    <div className=" flex items-center justify-between gap-4 text-white">
+     {
+      toggleSidebar ? "" :  <HamburgerMenu
         toggleSidebar={toggleSidebar}
         setToggleSidebar={setToggleSidebar}
       />
+     }
     
     </div>
   );

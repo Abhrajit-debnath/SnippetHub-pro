@@ -6,8 +6,6 @@ import { resetPasswordValidators } from "@/app/validators/user/resetPassword-val
 import argon2 from "argon2";
 import getJwtSecret from "@/app/helpers/getJwt";
 
-
-
 export async function PUT(req: NextRequest) {
   try {
     const token = req.cookies.get("token")?.value;
@@ -20,9 +18,13 @@ export async function PUT(req: NextRequest) {
     let decodedToken: { userId: string };
     try {
       decodedToken = Jwt.verify(token, getJwtSecret()) as { userId: string };
+      
     } catch {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }
+
+ 
+    
 
     // Get request body
     const body = await req.json();
@@ -48,13 +50,16 @@ export async function PUT(req: NextRequest) {
         { returnDocument: "after" }
       );
 
+  
+      
+
     if (!result) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json({
       message: "Password updated",
-      user: result.value.email,
+      user: result,
     });
   } catch (error: any) {
     console.error(error);

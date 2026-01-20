@@ -10,9 +10,15 @@ type SnippetCardProps = {
   snippet: Snippet;
   onUpdate: (snippet: Snippet) => void;
   onDelete: (snippet: Snippet) => void;
+  onChat: (snippet: Snippet) => void;
 };
 
-const SnippetCard = ({ snippet, onUpdate, onDelete }: SnippetCardProps) => {
+const SnippetCard = ({
+  snippet,
+  onUpdate,
+  onDelete,
+  onChat,
+}: SnippetCardProps) => {
   const [copyCode, setCopyCode] = useState(false);
   const createdDate = new Date(snippet.createdAt).toDateString();
 
@@ -35,6 +41,10 @@ const SnippetCard = ({ snippet, onUpdate, onDelete }: SnippetCardProps) => {
 
   const deleteSnippetHandler = () => {
     onDelete(snippet);
+  };
+
+  const chatWithAIHandler = () => {
+    onChat(snippet);
   };
 
   return (
@@ -62,6 +72,7 @@ const SnippetCard = ({ snippet, onUpdate, onDelete }: SnippetCardProps) => {
             <DropdownMenuDialog
               updateSnippetHandler={updateSnippetHandler}
               deleteSnippetHandler={deleteSnippetHandler}
+              chatWithAIHandler={chatWithAIHandler}
             />
           </div>
         </div>

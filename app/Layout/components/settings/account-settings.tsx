@@ -34,6 +34,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema } from "@/app/schema/resetPasswordSchema";
 import z from "zod";
+import { useSnippetStore } from "@/app/store/snippetStore";
 
 type ResetPasswordForm = {
   password: string;
@@ -68,6 +69,7 @@ const AccountSettings = () => {
       if (response.status === 200) {
         hotToast.success("Account has been deleted");
         clearUser();
+        useSnippetStore.persist.clearStorage();
         router.push("/auth/signin");
       }
     } catch (error) {}
@@ -290,8 +292,8 @@ const AccountSettings = () => {
                   {showResetPassword
                     ? "reset"
                     : loading
-                    ? "reseting.."
-                    : "reset password"}
+                      ? "reseting.."
+                      : "reset password"}
                 </Button>
 
                 <Button

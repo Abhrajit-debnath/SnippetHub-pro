@@ -34,19 +34,6 @@ const SnippetAnalyticsChart = ({
   console.log(data);
 
   return (
-    // <PieChart
-    //   series={[
-    //     {
-    //       data,
-    //       arcLabel: (item) =>
-    //         `${Math.round((item.value / totalSnippets) * 100)}%`,
-    //       innerRadius: 40,
-    //       outerRadius: 90,
-    //       paddingAngle: 1,
-    //     },
-    //   ]}
-    //   {...settings}
-    // />
 
     <PieChart
       series={[
@@ -85,40 +72,6 @@ const SnippetAnalyticsChart = ({
         },
       }}
     />
-
-
-
-//     <PieChart
-//   series={[
-//     {
-//       data,
-//       arcLabel: (item) =>
-//         `${Math.round((item.value / totalSnippets) * 100)}%`,
-//       arcLabelMinAngle: 35,
-//       arcLabelRadius: "65%",
-//       innerRadius: 30,
-//       highlightScope: { fade: "none" }, // removes gray overlay
-//     },
-//   ]}
-//   {...settings}
-//   sx={{
-//     "& .MuiPieArc-root": {
-//       stroke: "none",
-//       strokeWidth: 0,
-//       transition: "transform 0.3s ease",
-//     },
-//     "& .MuiPieArc-root:hover": {
-//       transform: "scale(1.05)", // subtle zoom on hover
-//     },
-//     "& .MuiChartsArcLabel-root": {
-//       fontFamily: "var(--font-poppins)",
-//       fontSize: "12px",
-//       fontWeight: 800,
-//       fill: "#fff",
-//       textTransform: "uppercase",
-//     },
-//   }}
-// />
 
   );
 };

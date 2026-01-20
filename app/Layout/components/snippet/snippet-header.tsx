@@ -33,7 +33,7 @@ const SnippetHeader = ({
   };
 
   return (
-    <div className="w-full flex items-center justify-between pt-4">
+    <div className="w-full flex items-center justify-between  pt-8 lg:pt-10">
       <h1 className="text-xl font-poppins font-medium text-white">Snippets</h1>
 
       <Button

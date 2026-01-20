@@ -35,7 +35,7 @@ const Sidebar = ({ toggleSidebar, setToggleSidebar }: SidebarProps) => {
         <Plus className="text-white" />
       </button>
 
-      <SidebarMenus />
+      <SidebarMenus setToggleSidebar={setToggleSidebar}/>
     </aside>
   );
 };

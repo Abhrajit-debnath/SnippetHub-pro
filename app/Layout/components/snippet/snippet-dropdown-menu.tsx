@@ -1,6 +1,6 @@
 "use client";
 
-import { MoreHorizontalIcon, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontalIcon, Pencil, BrainCircuit, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,28 +11,46 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/app/store/authStore";
 
 type DropdownMenuDialogProps = {
   updateSnippetHandler: () => void;
   deleteSnippetHandler: () => void;
+  chatWithAIHandler: () => void;
 };
 
 export default function DropdownMenuDialog({
   updateSnippetHandler,
   deleteSnippetHandler,
+  chatWithAIHandler,
 }: DropdownMenuDialogProps) {
+  const { user } = useAuthStore();
+
   const crudButtons = [
     {
       name: "update",
       icon: <Pencil size={15} className="text-green-700" />,
       handler: updateSnippetHandler,
+      requiresSubscription: false,
     },
     {
       name: "delete",
       icon: <Trash2 size={15} className="text-red-700" />,
       handler: deleteSnippetHandler,
+      requiresSubscription: false,
+    },
+    {
+      name: "chat with snippet ai",
+      icon: <BrainCircuit size={15} className="text-yellow-700" />,
+      handler: chatWithAIHandler,
+      requiresSubscription: true,
     },
   ];
+
+  const filteredItems = crudButtons.filter(
+    (btn) => !btn.requiresSubscription || user?.isSubscribed
+  );
+  console.log(filteredItems);
 
   return (
     <DropdownMenu modal={false}>
@@ -56,11 +74,14 @@ export default function DropdownMenuDialog({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-40 bg-sidebarBg text-white border-zinc-700 p-3" align="end">
+      <DropdownMenuContent
+        className="w-55 bg-sidebarBg text-white border-zinc-700 p-3"
+        align="end"
+      >
         <DropdownMenuLabel>Snippet Actions</DropdownMenuLabel>
 
         <DropdownMenuGroup>
-          {crudButtons.map((menu) => (
+          {filteredItems.map((menu) => (
             <DropdownMenuItem
               key={menu.name}
               onClick={menu.handler}
@@ -69,7 +90,9 @@ export default function DropdownMenuDialog({
      font-poppins
              focus:bg-zinc-800 
               ${
-                menu.name === "delete" ? "text-red-700 focus:text-red-700" : "text-white focus:text-white data-highlighted:bg-zinc-800"
+                menu.name === "delete"
+                  ? "text-red-700 focus:text-red-700"
+                  : "text-white focus:text-white data-highlighted:bg-zinc-800"
               }`}
             >
               {menu.icon}
@@ -77,7 +100,7 @@ export default function DropdownMenuDialog({
             </DropdownMenuItem>
           ))}
 
-          <DropdownMenuItem disabled>Download</DropdownMenuItem>
+          {/* <DropdownMenuItem disabled>Download</DropdownMenuItem> */}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

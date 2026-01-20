@@ -103,7 +103,7 @@ const SignInComponent = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="email"
+                        placeholder="abc@gmail.com"
                         className="font-inter text-sm border-gray-600 text-white"
                         {...field}
                       />

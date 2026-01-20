@@ -17,6 +17,8 @@ type AddSnippetPayload = {
 
 interface SnippetStore {
   snippets: Snippet[];
+  activeSnippet: Snippet | null;
+  setActiveSnippet: (snippet: Snippet) => void;
   loading: boolean;
 
   fetchSnippets: () => Promise<void>;
@@ -29,8 +31,12 @@ export const useSnippetStore = create<SnippetStore>()(
   persist(
     (set) => ({
       snippets: [],
+      activeSnippet: null,
       loading: false,
 
+      setActiveSnippet: (snippet) => {
+        set({ activeSnippet: snippet });
+      },
       fetchSnippets: async () => {
         try {
           set({ loading: true });
@@ -60,13 +66,11 @@ export const useSnippetStore = create<SnippetStore>()(
         try {
           const res = await handleUpdateSnippet(
             `/snippets/update/${id}`,
-            payload
+            payload,
           );
 
           set((state) => ({
-            snippets: state.snippets.map((s) =>
-              s._id === id ? res.data : s
-            ),
+            snippets: state.snippets.map((s) => (s._id === id ? res.data : s)),
           }));
         } catch (error) {
           console.error("Update snippet failed", error);
@@ -90,6 +94,6 @@ export const useSnippetStore = create<SnippetStore>()(
       partialize: (state) => ({
         snippets: state.snippets,
       }),
-    }
-  )
+    },
+  ),
 );
