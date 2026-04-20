@@ -47,7 +47,6 @@ const SignInComponent = () => {
   // Form submit handler
 
   const onSubmit = async (data: LoginFormValues) => {
-    console.log("Validated Data:", data);
     try {
       setLoading(true);
       const response = await axios.post("/auth/login", data);
