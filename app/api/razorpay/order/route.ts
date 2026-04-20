@@ -26,11 +26,11 @@ export async function POST() {
     });
 
     return NextResponse.json(order);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Razorpay order error:", error);
 
     return NextResponse.json(
-      { error: "Order creation failed" },
+      { error: error.message },
       { status: 500 }
     );
   }
