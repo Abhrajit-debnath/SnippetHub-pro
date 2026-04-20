@@ -58,8 +58,9 @@ export default function UpgradePlanCard() {
 
       const rzp = new window.Razorpay(options);
       rzp.open();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log("Full error response:", error?.response?.data);
+      console.log("Status:", error?.response?.status);
     }
   };
   return (
