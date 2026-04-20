@@ -54,6 +54,8 @@ const SignUpComponent = () => {
         email: data.email,
         password: data.password,
       });
+      console.log(response);
+      
 
       if (response.status === 200) {
         toast.success("Signup successful");

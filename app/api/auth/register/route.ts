@@ -69,9 +69,12 @@ export async function POST(req: NextRequest) {
     });
 
     return response;
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(
-      { error: "Something went wrong" },
+      {
+        error: error?.message,
+        stack: error?.stack
+      },
       { status: 500 }
     );
   }
