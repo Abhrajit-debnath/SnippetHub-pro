@@ -55,6 +55,7 @@
     "next": "16.0.10",
     "ogl": "^1.0.11",
     "ollama": "^0.6.3",
+    "radix-ui": "^1.4.3",
     "razorpay": "^2.9.6",
     "react": "19.2.1",
     "react-day-picker": "^9.12.0",

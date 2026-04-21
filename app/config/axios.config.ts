@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://www.snippethubpro.in/api",
+  baseURL: "https://www.snippethubpro.in/api/",
   withCredentials: true,
   
   headers: {

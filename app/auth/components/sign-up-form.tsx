@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "../../schema/signup-schema";
 import { Eye, EyeClosed } from "lucide-react";
-
 import { useState } from "react";
 import axios from "@/app/config/axios.config";
 import { useRouter } from "next/navigation";

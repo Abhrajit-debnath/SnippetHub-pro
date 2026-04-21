@@ -43,7 +43,7 @@ const SidebarMenus = ({setToggleSidebar} : SidebarMenusProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col min-h-screen">
       <Menu setToggleSidebar={setToggleSidebar}/>
 
       <SidebarFooter className="border-t border-zinc-700">
@@ -67,7 +67,7 @@ const SidebarMenus = ({setToggleSidebar} : SidebarMenusProps) => {
 
               <DropdownMenuContent
                 side="top"
-                className="bg-sidebarBg w-full fixed bottom-3 p-2 -left-2 space-y-1 border-zinc-600"
+                className="bg-sidebarBg w-full p-2 -left-2 space-y-1 border-zinc-600"
               >
                 <DropdownMenuItem
                   className="text-white font-poppins
