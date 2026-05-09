@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import axios from "@/app/config/axios.config";
+import { useSnippetStore } from "@/app/store/snippetStore";
 
 const SnippetSearchBox = () => {
   const [query, setQuery] = useState("");
+  const {searchSnippet} =useSnippetStore()
+
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
-      console.log("run");
-      
     }, 300);
 
     return () => {
@@ -23,16 +23,10 @@ const SnippetSearchBox = () => {
       return;
     }
 
-    seachSnippetHandler(debouncedQuery)
+    searchSnippet(debouncedQuery)
   }, [debouncedQuery]);
 
-  const seachSnippetHandler=async(query:string)=>{
-try {
-    const res = await axios.get(`/snippets/search/${query}`)
-} catch (error) {
-    
-}
-  }
+
 
   return (
     <div className="w-full mx-auto mt-8">
@@ -51,3 +45,5 @@ try {
 };
 
 export default SnippetSearchBox;
+
+

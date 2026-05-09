@@ -7,6 +7,7 @@ import { handleGetSnippet } from "@/app/helpers/getSnippet";
 import { handlerDeleteSnippet } from "@/app/helpers/deleteSnippet";
 import { handleAddSnippet } from "@/app/helpers/addSnippet";
 import { handleUpdateSnippet } from "@/app/helpers/updateSnippet";
+import { handleSearchSnippet } from "../helpers/searchSnippet";
 
 type AddSnippetPayload = {
   title: string;
@@ -25,6 +26,7 @@ interface SnippetStore {
   addSnippet: (payload: AddSnippetPayload) => Promise<void>;
   updateSnippet: (id: string, payload: AddSnippetPayload) => Promise<void>;
   deleteSnippet: (id: string) => Promise<void>;
+  searchSnippet: (query: string) => Promise<void>;
 }
 
 export const useSnippetStore = create<SnippetStore>()(
@@ -59,6 +61,19 @@ export const useSnippetStore = create<SnippetStore>()(
           }));
         } catch (error) {
           console.error("Add snippet failed", error);
+        }
+      },
+      searchSnippet: async (query: string) => {
+        try {
+          const res = await handleSearchSnippet(`/snippets/search/${query}`)
+          console.log("res:", res);
+
+          set({ snippets: res.data });
+
+
+        } catch (error) {
+          console.error("failed to search snippet", error);
+
         }
       },
 

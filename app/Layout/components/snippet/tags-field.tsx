@@ -24,7 +24,7 @@ const TagInput = ({ value, onChange }: TagInputProps) => {
     onChange(value.filter((t) => t !== tag));
   };
   return (
-    <div className="flex flex-wrap gap-2 border-zinc-700  border rounded-md p-2 max-h-10 overflow-auto bg-zinc-800">
+    <div className="flex flex-wrap border-zinc-700  border rounded-md p-2  overflow-auto bg-zinc-800">
       {value.map((tag) => (
         <span
           key={tag}
@@ -41,7 +41,7 @@ const TagInput = ({ value, onChange }: TagInputProps) => {
       <input
         onKeyDown={addTag}
         placeholder="Add tag & press Enter"
-        className="  text-white flex-1 bg-transparent outline-none text-sm"
+        className=" text-white flex-1 bg-transparent outline-none text-sm"
       />
     </div>
   );
