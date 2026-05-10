@@ -4,7 +4,7 @@ import { useSnippetStore } from "@/app/store/snippetStore";
 
 const SnippetSearchBox = () => {
   const [query, setQuery] = useState("");
-  const {searchSnippet} =useSnippetStore()
+  const {searchSnippet,fetchSnippets} =useSnippetStore()
 
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
@@ -20,7 +20,7 @@ const SnippetSearchBox = () => {
 
   useEffect(() => {
     if (!debouncedQuery) {
-      return;
+      fetchSnippets()
     }
 
     searchSnippet(debouncedQuery)
